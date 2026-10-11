@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="本杰明·富兰克林：自传全文中英对照，行迹，十三美德与思想专题，年表。">
+<title>富兰克林</title>
+<style>
+/* 一张印刷所的校样：米色纸、油墨黑、红色界行（他小本子上的红线） */
+:root{
+  --paper:#f4f0e6;--sheet:#fbf8f1;--ink:#1f1d1a;--soft:#5f5a50;--faint:#8a8375;--rule:#d3cbb9;--red:#a3382b;--red-soft:#a3382b22;--sea:#e7e4d8;--land:#fbf8f1;
+  --song:"Songti SC","STSong","SimSun","Noto Serif CJK SC",serif;
+  --kai:"Kaiti SC","STKaiti","KaiTi","楷体",serif;
+  --en:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#171614;--sheet:#1e1d1a;--ink:#e6e1d6;--soft:#a8a192;--faint:#7d7769;--rule:#3a372f;--red:#d9796c;--red-soft:#d9796c26;--sea:#14130f;--land:#22211d;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#171614;--sheet:#1e1d1a;--ink:#e6e1d6;--soft:#a8a192;--faint:#7d7769;--rule:#3a372f;--red:#d9796c;--red-soft:#d9796c26;--sea:#14130f;--land:#22211d;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--song);font-size:17px;line-height:1.85;padding:0 16px 72px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+a{color:var(--red)}
+.wrap{max-width:1120px;margin-inline:auto}
+header.top{padding:28px 0 18px;border-bottom:3px double var(--ink)}
+.back{font-size:.84rem;color:var(--soft);text-decoration:none;letter-spacing:.06em}
+.back:hover{color:var(--red)}
+.mast{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 20px;margin-top:10px}
+h1{font-family:var(--kai);font-weight:400;font-size:clamp(2.1rem,6vw,3.2rem);line-height:1.15;margin:0;letter-spacing:.05em}
+.mast .en{font-family:var(--en);font-style:italic;color:var(--soft);font-size:1.05rem}
+.lede{margin:10px 0 0;color:var(--soft);max-width:44em;font-size:.96rem}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--paper);display:flex;gap:4px 22px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--rule);margin-bottom:26px}
+nav.tabs button{font-family:var(--kai);font-size:1.12rem;letter-spacing:.12em;padding:4px 0;border-bottom:2px solid transparent;color:var(--soft)}
+nav.tabs button[aria-current="true"]{color:var(--ink);border-color:var(--red)}
+nav.tabs .sp{flex:1}
+@media (max-width:640px){nav.tabs{position:static}.para{grid-template-columns:minmax(0,1fr)}.para .no{padding:0}}
+nav.tabs input{font:inherit;font-size:.9rem;background:var(--sheet);color:var(--ink);border:1px solid var(--rule);padding:4px 10px;width:min(240px,100%);border-radius:0}
+section.view[hidden]{display:none}
+h2{font-family:var(--kai);font-weight:400;font-size:1.7rem;margin:0 0 4px;line-height:1.3;text-wrap:balance}
+h3{font-family:var(--kai);font-weight:400;font-size:1.25rem;margin:28px 0 8px}
+.eyebrow{font-size:.78rem;letter-spacing:.24em;color:var(--red)}
+.muted{color:var(--soft)}
+.small{font-size:.86rem}
+.note{font-size:.84rem;color:var(--faint);border-left:2px solid var(--rule);padding-left:10px;margin:14px 0}
+
+/* 行迹 */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:900px){.mapgrid{grid-template-columns:minmax(0,1fr)}}
+.mapbox{background:var(--sea);border:1px solid var(--rule)}
+svg.map{display:block;width:100%;height:auto}
+.land{fill:var(--land);stroke:var(--rule);stroke-width:1}
+.river{fill:none;stroke:var(--rule);stroke-width:1.2}
+.frame{fill:none;stroke:var(--rule)}
+.cross{fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:3 5;opacity:.45}
+.route{fill:none;stroke:var(--red);stroke-width:1.6;opacity:.55}
+.stop circle{fill:var(--ink);stroke:var(--sheet);stroke-width:1.5}
+.stop text{font-family:var(--kai);font-size:15px;fill:var(--ink);paint-order:stroke;stroke:var(--land);stroke-width:3px}
+.stop{cursor:pointer}
+.stop[aria-current="true"] circle{fill:var(--red)}
+.stop[aria-current="true"] text{fill:var(--red)}
+.cap{font-family:var(--kai);font-size:14px;fill:var(--faint);letter-spacing:.3em}
+.stoplist{display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:12px}
+.stoplist button{font-size:.86rem;padding:2px 10px;border:1px solid var(--rule);background:var(--sheet)}
+.stoplist button[aria-current="true"]{border-color:var(--red);color:var(--red)}
+.card{background:var(--sheet);border:1px solid var(--rule);padding:20px 22px}
+.card p{margin:8px 0}
+ul.ev{margin:10px 0;padding-left:1.2em;font-size:.92rem;color:var(--soft)}
+.links{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.links button,.seclink{font-size:.92rem;color:var(--red);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--red-soft)}
+.links button:hover{text-decoration-color:var(--red)}
+table.x{border-collapse:collapse;font-size:.88rem;width:100%}
+table.x td,table.x th{border-bottom:1px solid var(--rule);padding:4px 8px 4px 0;text-align:left;vertical-align:top;font-weight:400}
+table.x th{color:var(--faint);font-size:.78rem;letter-spacing:.1em}
+.scroll{overflow-x:auto}
+
+/* 自传 */
+.book{display:grid;grid-template-columns:270px minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:900px){.book{grid-template-columns:minmax(0,1fr)}.toc{max-height:none!important;position:static!important}}
+.toc{position:sticky;top:58px;max-height:calc(100vh - 76px);overflow:auto;padding-right:6px}
+.toc h4{font-family:var(--kai);font-weight:400;font-size:1.02rem;margin:16px 0 0;color:var(--ink)}
+.toc .when{font-size:.74rem;color:var(--faint);margin-bottom:4px}
+.toc button{display:block;width:100%;font-size:.9rem;line-height:1.5;padding:3px 0 3px 10px;border-left:2px solid transparent;color:var(--soft)}
+.toc button:hover{color:var(--ink)}
+.toc button[aria-current="true"]{border-color:var(--red);color:var(--ink)}
+.toc .num{font-family:var(--en);font-size:.78rem;color:var(--faint);margin-right:6px;font-variant-numeric:tabular-nums}
+.sechead{border-bottom:1px solid var(--rule);padding-bottom:14px;margin-bottom:8px}
+.sum{margin:8px 0 0;color:var(--soft);max-width:40em}
+.bar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:12px 0 4px;font-size:.84rem}
+.seg{display:inline-flex;border:1px solid var(--rule)}
+.seg button{padding:2px 12px;color:var(--soft)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.para{display:grid;grid-template-columns:2.6em minmax(0,1fr);gap:0 10px;padding:14px 0;border-bottom:1px solid var(--rule);scroll-margin-top:70px}
+.para .no{font-family:var(--en);font-size:.74rem;color:var(--faint);padding-top:.5em;font-variant-numeric:tabular-nums}
+.para .en{font-family:var(--en);font-size:1rem;line-height:1.7;color:var(--soft);margin:0 0 8px;hyphens:auto;overflow-wrap:anywhere}
+.para .zh{margin:0;white-space:pre-line;max-width:38em}
+.para.verse .en{white-space:pre-wrap;font-style:italic}
+.para.fn .en,.para.fn .zh{font-size:.86rem;color:var(--faint)}
+.para.hit{background:var(--red-soft)}
+.mode-zh .para .en{display:none}
+.mode-en .para .zh{display:none}
+.mode-en .para .en{color:var(--ink)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:.92rem}
+.pager button{color:var(--red)}
+.pager button:disabled{color:var(--faint);cursor:default}
+#qres{background:var(--sheet);border:1px solid var(--rule);padding:12px 16px;margin-bottom:22px;max-height:60vh;overflow:auto}
+#qres button{display:block;width:100%;padding:6px 0;border-bottom:1px solid var(--rule);font-size:.9rem}
+#qres .w{font-size:.76rem;color:var(--faint)}
+mark{background:var(--red-soft);color:inherit}
+
+/* 思想 */
+.themes{display:grid;grid-template-columns:230px minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:900px){.themes{grid-template-columns:minmax(0,1fr)}}
+.tlist button{display:block;width:100%;padding:6px 0 6px 10px;border-left:2px solid transparent;color:var(--soft);font-family:var(--kai);font-size:1.05rem}
+.tlist button[aria-current="true"]{border-color:var(--red);color:var(--ink)}
+@media (max-width:900px){.tlist{display:flex;flex-wrap:wrap;gap:4px 14px}.tlist button{width:auto;border-left:0;border-bottom:2px solid transparent;padding:2px 0}}
+.tbody p{max-width:38em;margin:10px 0}
+ol.vir{list-style:none;padding:0;margin:14px 0;counter-reset:v}
+ol.vir li{counter-increment:v;display:grid;grid-template-columns:2em 4.2em minmax(0,1fr);gap:0 8px;padding:8px 0;border-bottom:1px solid var(--rule)}
+ol.vir li::before{content:counter(v);font-family:var(--en);color:var(--red);font-size:.9rem;padding-top:.15em}
+ol.vir b{font-family:var(--kai);font-weight:400;font-size:1.1rem}
+ol.vir .e{font-family:var(--en);font-size:.9rem;color:var(--soft);display:block;line-height:1.5}
+table.book13{border-collapse:collapse;margin:8px 0;font-size:.86rem;background:var(--sheet)}
+table.book13 th,table.book13 td{border:1px solid var(--red);width:2.5em;height:1.9em;text-align:center;font-weight:400;padding:0}
+table.book13 th{color:var(--soft);font-family:var(--kai)}
+table.book13 td{font-size:.6rem;letter-spacing:1px}
+table.book13 caption{font-family:var(--kai);text-align:left;padding-bottom:6px;color:var(--soft)}
+.sch{display:grid;grid-template-columns:4.4em 3.4em minmax(0,1fr);gap:0 10px;font-size:.94rem;max-width:40em}
+.sch>div{padding:8px 0;border-bottom:1px solid var(--rule)}
+.sch .h{font-family:var(--en);color:var(--faint);font-variant-numeric:tabular-nums}
+.sch .q{display:block;color:var(--red);font-family:var(--kai)}
+ul.mx{list-style:none;padding:0;margin:14px 0;columns:2 320px;column-gap:36px}
+ul.mx li{break-inside:avoid;padding:8px 0;border-bottom:1px solid var(--rule)}
+ul.mx .e{font-family:var(--en);font-style:italic;display:block;line-height:1.5}
+ul.mx .z{color:var(--soft);font-size:.92rem}
+blockquote{margin:14px 0;padding:12px 18px;border-left:3px solid var(--red);background:var(--sheet);max-width:40em}
+blockquote .e{font-family:var(--en);font-style:italic;color:var(--soft);display:block;margin-bottom:6px;line-height:1.6}
+
+/* 年表与人物 */
+.tl{display:grid;grid-template-columns:6.4em minmax(0,1fr);gap:0 14px;max-width:46em}
+.tl>div{padding:7px 0;border-bottom:1px solid var(--rule)}
+.tl .y{font-family:var(--en);color:var(--red);font-variant-numeric:tabular-nums;font-size:.94rem}
+.tl .after{color:var(--soft)}
+.ppl{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 36px}
+.ppl dl{margin:0}
+.ppl dt{font-family:var(--kai);font-size:1.08rem;margin-top:12px}
+.ppl dt span{font-family:var(--en);font-style:italic;font-size:.84rem;color:var(--faint);margin-left:6px}
+.ppl dd{margin:0;font-size:.92rem;color:var(--soft)}
+dl.how dt{font-family:var(--kai);font-size:1.12rem;margin-top:16px}
+dl.how dd{margin:2px 0 0;max-width:40em;color:var(--soft)}
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-size:.8rem;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="back" href="../">← 渊默的学习小院</a>
+  <div class="mast"><h1>富兰克林</h1><span class="en" lang="en">Benjamin Franklin, 1706–1790</span></div>
+  <p class="lede">印刷工、作家、科学家、外交家。这里以他亲笔写的《自传》为主干：全文四百四十八段，英文原文与中文对照；再从书里理出他走过的地方和他的想法。</p>
+</header>
+<nav class="tabs" aria-label="栏目">
+  <button type="button" data-tab="map">行迹</button>
+  <button type="button" data-tab="book">自传</button>
+  <button type="button" data-tab="idea">思想</button>
+  <button type="button" data-tab="time">年表与人物</button>
+  <button type="button" data-tab="how">怎么读</button>
+  <span class="sp"></span>
+  <input id="q" type="search" placeholder="搜自传：中文或英文" aria-label="搜索自传全文">
+</nav>
+<div id="qres" hidden></div>
+<p id="stat" class="muted small">正在载入自传全文……</p>
+
+<section class="view" id="v-map" hidden>
+  <div class="mapgrid">
+    <div>
+      <div class="mapbox"><svg class="map" id="map" viewBox="0 0 1000 500" role="group" aria-label="富兰克林行迹示意图"></svg></div>
+      <div class="stoplist" id="stoplist"></div>
+      <p class="note">示意图：左边是北美东海岸，右边是英国和法国，两边比例不同，海岸线只画了大概。红线是 1723 年从波士顿出走到费城的路。</p>
+      <h3>八次横渡大西洋</h3>
+      <div class="scroll"><table class="x" id="cross"></table></div>
+    </div>
+    <div class="card" id="stopcard" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="view" id="v-book" hidden>
+  <div class="book">
+    <aside class="toc" id="toc" aria-label="自传分节"></aside>
+    <article id="reader"></article>
+  </div>
+</section>
+
+<section class="view" id="v-idea" hidden>
+  <div class="themes">
+    <div class="tlist" id="tlist"></div>
+    <article class="tbody" id="tbody"></article>
+  </div>
+</section>
+
+<section class="view" id="v-time" hidden>
+  <h2>年表</h2>
+  <p class="muted small">灰色的条目是《自传》没有写到的后半生，据通行传记补入。</p>
+  <div class="tl" id="tl"></div>
+  <h2 style="margin-top:44px">书里的人</h2>
+  <div class="ppl" id="ppl"></div>
+</section>
+
+<section class="view" id="v-how" hidden>
+  <h2>怎么读</h2>
+  <dl class="how" id="how"></dl>
+</section>
+
+<footer>英文原文：The Autobiography of Benjamin Franklin，Charles W. Eliot 编，1909 年（公有领域）。中文译文、分节、提要与专题由 AI（Claude）撰写，未经人工校对。</footer>
+</div>
+
+<script src="content.js"></script>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store={get(k,d){try{return localStorage.getItem(k)||d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let P=null,curTab="map",curSec=1,curStop="philadelphia",curTheme="virtue",mode=store.get("bf-mode","both");
+const SEC=window.SECTIONS.map(a=>({n:a[0],part:a[1],from:a[2],to:a[3],t:a[4],yr:a[5],loc:a[6],sum:a[7]}));
+const secOfPara=i=>SEC.find(s=>i>=s.from&&i<=s.to);
+const stopBy=k=>window.STOPS.find(s=>s.k===k);
+
+/* ---------- 地图 ---------- */
+const PJ={a:{lon0:-79.5,latMax:46.3,x0:6,y0:10,ky:60,kx:44.6},e:{lon0:-11,latMax:57.5,x0:566,y0:10,ky:43.6,kx:26.9}};
+const xy=(p,lon,lat)=>{const j=PJ[p];return[(j.x0+(lon-j.lon0)*j.kx).toFixed(1),(j.y0+(j.latMax-lat)*j.ky).toFixed(1)]};
+const poly=(p,pts)=>"M"+pts.map(c=>xy(p,c[0],c[1]).join(" ")).join(" L")+" Z";
+const line=(p,pts)=>"M"+pts.map(c=>xy(p,c[0],c[1]).join(" ")).join(" L");
+const NA=[[-75.1,38.3],[-75.05,38.8],[-75.3,39.1],[-75.5,39.45],[-75.55,39.7],[-75.4,39.4],[-74.95,39.1],[-74.9,38.95],[-74.4,39.4],[-74.1,39.8],[-74.0,40.4],[-74.2,40.5],[-74.05,40.7],[-73.75,40.85],[-73.2,41.1],[-72.3,41.28],[-71.85,41.32],[-71.45,41.4],[-71.4,41.75],[-71.2,41.5],[-70.65,41.55],[-70.0,41.67],[-69.95,42.03],[-70.25,42.05],[-70.05,41.8],[-70.55,41.78],[-70.7,42.2],[-71.03,42.35],[-70.6,42.65],[-70.8,42.85],[-70.2,43.65],[-69.1,44.05],[-68.5,44.3],[-68.5,46.3],[-79.5,46.3],[-79.5,38.3]];
+const LI=[[-74.0,40.58],[-73.3,40.65],[-72.4,40.85],[-71.9,41.05],[-72.3,41.1],[-73.0,40.95],[-73.7,40.88]];
+const GB=[[-5.7,50.05],[-5.05,50.1],[-3.5,50.3],[-2.9,50.7],[-1.3,50.75],[0.3,50.75],[1.4,51.15],[1.4,51.4],[0.7,51.5],[1.7,52.6],[0.3,53.0],[0.1,53.6],[-0.1,54.1],[-1.2,54.6],[-1.6,55.5],[-2.1,56.0],[-3.2,56.0],[-2.6,56.4],[-2.1,57.0],[-1.8,57.5],[-4.0,57.5],[-5.8,57.5],[-5.6,56.5],[-5.2,55.8],[-4.8,55.0],[-3.4,54.9],[-3.0,54.0],[-3.1,53.3],[-4.6,53.3],[-4.2,52.8],[-4.1,52.3],[-5.2,51.9],[-4.2,51.6],[-3.0,51.4],[-3.5,51.2],[-4.6,51.0]];
+const IE=[[-6.0,52.2],[-6.2,53.3],[-5.5,54.6],[-6.5,55.2],[-8.2,55.2],[-8.5,54.3],[-10.0,54.2],[-9.5,53.2],[-9.9,52.0],[-9.5,51.5],[-8.0,51.7]];
+const FR=[[-1.2,46.5],[-2.0,46.6],[-2.5,47.3],[-4.3,47.8],[-4.7,48.4],[-3.0,48.8],[-1.6,48.65],[-1.6,49.65],[-1.2,49.4],[0.1,49.5],[1.6,50.9],[2.5,51.1],[3.6,51.4],[4.5,52.3],[4.8,53.0],[5,53.2],[5,46.5]];
+const LBL={boston:[9,5,"start"],newyork:[9,5,"start"],burlington:[9,-2,"start"],philadelphia:[-9,5,"end"],newcastle:[-8,14,"end"],newport:[9,12,"start"],carlisle:[-9,5,"end"],albany:[-9,5,"end"],frederick:[-9,5,"end"],gnadenhut:[-9,2,"end"],montreal:[-9,5,"end"],ecton:[9,2,"start"],london:[9,6,"start"],twyford:[-8,14,"end"],falmouth:[4,20,"middle"],standrews:[9,5,"start"],paris:[-9,5,"end"]};
+const SHORT={gnadenhut:"格纳登胡特",standrews:"圣安德鲁斯",paris:"巴黎"};
+function drawMap(){
+  let h=`<path class="land" d="${poly("a",NA)}"/><path class="land" d="${poly("a",LI)}"/>
+  <path class="river" d="${line("a",[[-74.02,40.72],[-73.95,41.5],[-73.78,42.65],[-73.6,43.3]])}"/>
+  <path class="river" d="${line("a",[[-75.55,39.7],[-75.13,39.93],[-74.83,40.12],[-75.05,40.4],[-75.2,40.75]])}"/>
+  <path class="land" d="${poly("e",GB)}"/><path class="land" d="${poly("e",IE)}"/><path class="land" d="${poly("e",FR)}"/>
+  <rect class="frame" x="6" y="10" width="491" height="480"/><rect class="frame" x="566" y="10" width="430" height="480"/>
+  <text class="cap" x="531" y="250" text-anchor="middle" writing-mode="vertical-rl" style="writing-mode:vertical-rl">大西洋</text>
+  <path class="cross" d="M497 150 Q531 120 566 180 M497 250 Q531 290 566 260 M497 330 Q531 370 566 340"/>
+  <path class="route" d="${line("a",[[-71.06,42.36],[-70.4,41.3],[-73.2,40.4],[-74.0,40.71],[-74.27,40.5],[-74.86,40.07],[-75.16,39.95]])}"/>
+  <text class="cap" x="20" y="34">北美殖民地</text><text class="cap" x="580" y="34">英国与法国</text>`;
+  for(const s of window.STOPS){const[x,y]=xy(s.p,s.lon,s.lat),l=LBL[s.k]||[9,5,"start"];
+    h+=`<g class="stop" data-stop="${s.k}" tabindex="0" role="button" aria-label="${esc(s.n)}"><circle cx="${x}" cy="${y}" r="${s.k==="philadelphia"||s.k==="london"?7:5}"/><text x="${+x+l[0]}" y="${+y+l[1]}" text-anchor="${l[2]}">${esc(SHORT[s.k]||s.n)}</text></g>`}
+  $("map").innerHTML=h;
+  $("stoplist").innerHTML=window.STOPS.map(s=>`<button type="button" data-stop="${s.k}">${esc(s.n)}</button>`).join("");
+  $("cross").innerHTML=`<tr><th>年</th><th>航程</th><th>缘由</th></tr>`+window.CROSSINGS.map(c=>`<tr><td>${c[0]}</td><td>${esc(c[1])}</td><td>${esc(c[2])}</td></tr>`).join("");
+}
+function showStop(k){
+  const s=stopBy(k);if(!s)return;curStop=k;
+  document.querySelectorAll("[data-stop]").forEach(e=>e.setAttribute("aria-current",e.dataset.stop===k?"true":"false"));
+  $("stopcard").innerHTML=`<div class="eyebrow">${esc(s.yr)}</div><h2>${esc(s.n)} <span class="muted small" lang="en" style="font-family:var(--en);font-style:italic">${esc(s.en)}</span></h2>
+   <p class="muted">${esc(s.ti)}</p><p>${esc(s.tx)}</p>
+   <ul class="ev">${s.ev.map(e=>`<li>${esc(e)}</li>`).join("")}</ul>
+   ${s.sec.length?`<div class="eyebrow" style="margin-top:14px">自传里写到这里的章节</div><div class="links">${s.sec.map(n=>{const c=SEC[n-1];return `<button type="button" data-sec="${n}">${n}　${esc(c.t)}（${esc(c.yr)}）</button>`}).join("")}</div>`:`<p class="note">《自传》没有写到这一站。</p>`}`;
+}
+
+/* ---------- 自传 ---------- */
+function drawToc(){
+  $("toc").innerHTML=window.PARTS.map(p=>`<h4>${esc(p.t)}</h4><div class="when">${esc(p.when)}</div>`+SEC.filter(s=>s.part===p.k).map(s=>`<button type="button" data-sec="${s.n}"><span class="num">${String(s.n).padStart(2,"0")}</span>${esc(s.t)}</button>`).join("")).join("");
+}
+function paraHtml(i){
+  const p=P[i];let cls="para"+(p.v?" verse":"")+(p.n?" fn":"");
+  let en=`<p class="en" lang="en">${esc(p.e)}</p>`,zh=`<p class="zh">${esc(p.z)}</p>`;
+  if(i===198){en=`<ol class="en" lang="en" style="padding-left:1.4em">${p.e.split(/\s*\d+\.\s+/).filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`}
+  if(i===203){en=book13();zh=`<p class="zh small muted">这一页是“节制”周：节制一行要保持没有黑点，其余各行照实记录。</p>`}
+  if(i===377){en=`<p class="en" lang="en">${esc(p.e.replace(/\s{2,}/g,"; "))}</p>`}
+  return `<div class="${cls}" id="p${i}"><span class="no">${i}</span><div>${en}${zh}</div></div>`;
+}
+function book13(){
+  const d=["日","一","二","三","四","五","六"];
+  return `<table class="book13" aria-label="小本子里的一页"><caption>节制：食不过饱，饮不过量。</caption><tr><th></th>${d.map(x=>`<th>${x}</th>`).join("")}</tr>`+
+   window.VIRTUES.map((v,r)=>`<tr><th>${v[0][0]}</th>${d.map((_,c)=>`<td>${"●".repeat((window.DOTS[r]||[])[c]||0)}</td>`).join("")}</tr>`).join("")+`</table>`;
+}
+function showSec(n,para){
+  if(!P)return;n=Math.max(1,Math.min(SEC.length,n));curSec=n;const s=SEC[n-1],part=window.PARTS.find(p=>p.k===s.part),st=stopBy(s.loc);
+  document.querySelectorAll("#toc [data-sec]").forEach(b=>b.setAttribute("aria-current",+b.dataset.sec===n?"true":"false"));
+  let h=`<div class="sechead"><div class="eyebrow">${esc(part.t)} · 第 ${n} 节 · ${esc(s.yr)}${st?" · "+esc(st.n):""}</div><h2>${esc(s.t)}</h2><p class="sum">${esc(s.sum)}</p>${s.from===SEC.find(x=>x.part===s.part).from?`<p class="note">${esc(part.when)}。${esc(part.note)}</p>`:""}</div>
+   <div class="bar"><span class="muted">显示</span><span class="seg" role="group" aria-label="显示方式">${[["both","中英对照"],["zh","只看中文"],["en","只看英文"]].map(m=>`<button type="button" data-mode="${m[0]}" aria-pressed="${mode===m[0]}">${m[1]}</button>`).join("")}</span><span class="muted">第 ${s.from}—${s.to} 段</span></div><div id="paras" class="mode-${mode}">`;
+  for(let i=s.from;i<=s.to;i++)h+=paraHtml(i);
+  h+=`</div><div class="pager"><button type="button" data-sec="${n-1}" ${n===1?"disabled":""}>← ${n>1?esc(SEC[n-2].t):"已是第一节"}</button><button type="button" data-sec="${n+1}" ${n===SEC.length?"disabled":""}>${n<SEC.length?esc(SEC[n].t):"已是最后一节"} →</button></div>`;
+  $("reader").innerHTML=h;
+  if(para!=null){const e=$("p"+para);if(e){e.classList.add("hit");e.scrollIntoView({block:"center"});}}
+  else if(curTab==="book")window.scrollTo({top:$("v-book").offsetTop-74});
+}
+
+/* ---------- 思想 ---------- */
+function drawThemes(){$("tlist").innerHTML=window.THEMES.map(t=>`<button type="button" data-theme="${t.k}">${esc(t.t)}</button>`).join("");}
+function showTheme(k){
+  const t=window.THEMES.find(x=>x.k===k)||window.THEMES[0];curTheme=t.k;
+  document.querySelectorAll("[data-theme]").forEach(b=>b.setAttribute("aria-current",b.dataset.theme===t.k?"true":"false"));
+  let sp="";
+  if(t.special==="virtues")sp=`<h3>十三条</h3><ol class="vir">${window.VIRTUES.map(v=>`<li><b>${v[0]}</b><span>${esc(v[2])}<span class="e" lang="en">${esc(v[1])}. ${esc(v[3])}</span></span></li>`).join("")}</ol><h3>小本子里的一页</h3><div class="scroll">${book13()}</div><p class="small muted">红线画格，黑点记过。这一页是“节制”周的示例，照自传里的原表重画。</p>`;
+  if(t.special==="schedule")sp=`<div class="sch">${window.SCHEDULE.map(r=>`<div class="h">${r[0]} 点</div><div>${r[1]}</div><div>${r[3]?`<span class="q">${esc(r[3])}</span>`:""}${esc(r[2])}</div>`).join("")}</div>`;
+  if(t.special==="maxims")sp=`<ul class="mx">${window.MAXIMS.map(m=>`<li><span class="e" lang="en">${esc(m[0])}</span><span class="z">${esc(m[1])}</span></li>`).join("")}</ul><p class="note">凭记忆录入，个别字句可能与年鉴原版略有出入。</p>`;
+  if(t.special==="creed")sp=`<h3>他拟的六条信条（1731 年）</h3><blockquote>${window.CREED.map(c=>esc(c)).join("<br>")}</blockquote>`;
+  if(t.special==="epitaph")sp=`<blockquote><span class="e" lang="en">${esc(window.EPITAPH.e)}</span>${esc(window.EPITAPH.z)}</blockquote>`;
+  $("tbody").innerHTML=`<div class="eyebrow">思想专题</div><h2>${esc(t.t)}</h2><p class="muted">${esc(t.sub)}</p>${t.body.map(p=>`<p>${esc(p)}</p>`).join("")}${sp}
+   <div class="eyebrow" style="margin-top:22px">到自传里读原文</div><div class="links">${t.sec.map(n=>`<button type="button" data-sec="${n}">${n}　${esc(SEC[n-1].t)}</button>`).join("")}</div>`;
+}
+
+/* ---------- 年表、人物、说明 ---------- */
+function drawStatic(){
+  $("tl").innerHTML=window.TIMELINE.map(r=>`<div class="y">${r[0]}</div><div class="${r[2]?"after":""}">${esc(r[1])}</div>`).join("");
+  $("ppl").innerHTML=window.PEOPLE.map(g=>`<div><div class="eyebrow" style="margin-top:18px">${esc(g[0])}</div><dl>${g[1].map(p=>`<dt>${esc(p[0])}<span lang="en">${esc(p[1])}</span></dt><dd>${esc(p[2])}</dd>`).join("")}</dl></div>`).join("");
+  $("how").innerHTML=window.HOWTO.map(x=>`<dt>${esc(x[0])}</dt><dd>${esc(x[1])}</dd>`).join("");
+}
+
+/* ---------- 切换与路由 ---------- */
+function tab(k,noScroll){
+  curTab=k;
+  document.querySelectorAll("section.view").forEach(s=>s.hidden=s.id!=="v-"+k);
+  document.querySelectorAll("nav.tabs [data-tab]").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===k?"true":"false"));
+  if(!noScroll)window.scrollTo({top:0});
+}
+function setHash(h){try{history.replaceState(null,"","#"+h)}catch(e){}}
+function goSec(n,para){tab("book",true);showSec(n,para);setHash(para!=null?"p"+para:"s"+n);}
+function route(){
+  const h=location.hash.slice(1);let m;
+  if((m=/^s(\d+)$/.exec(h)))goSec(+m[1]);
+  else if((m=/^p(\d+)$/.exec(h))){const s=secOfPara(+m[1]);if(s)goSec(s.n,+m[1]);}
+  else if((m=/^t-(\w+)$/.exec(h))){tab("idea");showTheme(m[1]);}
+  else if((m=/^m-(\w+)$/.exec(h))){tab("map");showStop(m[1]);}
+  else if(["map","book","idea","time","how"].includes(h))tab(h);
+  else tab("map");
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-tab],[data-stop],[data-sec],[data-theme],[data-mode],[data-para]");if(!t||t.disabled)return;
+  if(t.dataset.tab){tab(t.dataset.tab);setHash(t.dataset.tab);}
+  else if(t.dataset.stop){showStop(t.dataset.stop);setHash("m-"+t.dataset.stop);}
+  else if(t.dataset.para){$("qres").hidden=true;const i=+t.dataset.para;goSec(secOfPara(i).n,i);}
+  else if(t.dataset.sec){goSec(+t.dataset.sec);}
+  else if(t.dataset.theme){showTheme(t.dataset.theme);setHash("t-"+t.dataset.theme);}
+  else if(t.dataset.mode){mode=t.dataset.mode;store.set("bf-mode",mode);$("paras").className="mode-"+mode;document.querySelectorAll("[data-mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===mode));}
+});
+document.addEventListener("keydown",e=>{
+  const s=e.target.closest&&e.target.closest("g.stop");
+  if(s&&(e.key==="Enter"||e.key===" ")){e.preventDefault();showStop(s.dataset.stop);}
+  if(curTab==="book"&&!e.target.closest("input")){if(e.key==="ArrowRight")goSec(curSec+1);if(e.key==="ArrowLeft")goSec(curSec-1);}
+});
+window.addEventListener("hashchange",route);
+
+/* ---------- 搜索 ---------- */
+$("q").addEventListener("input",()=>{
+  const s=$("q").value.trim(),box=$("qres");
+  if(!s||!P||s.length<2&&/^[\x00-\x7f]+$/.test(s)){box.hidden=true;return;}
+  const low=s.toLowerCase(),hits=[];
+  for(let i=0;i<P.length&&hits.length<80;i++){
+    let k=P[i].z.indexOf(s),src=P[i].z;
+    if(k<0){k=P[i].e.toLowerCase().indexOf(low);src=P[i].e;}
+    if(k>=0)hits.push([i,src,k]);
+  }
+  box.hidden=false;
+  box.innerHTML=`<p class="small muted" style="margin:0 0 6px">${hits.length?`找到 ${hits.length}${hits.length===80?"+":""} 段`:"没有找到，换个词试试。"}</p>`+hits.map(([i,src,k])=>{
+    const a=Math.max(0,k-24),ctx=src.slice(a,k+s.length+40);const kk=k-a;
+    return `<button type="button" data-para="${i}">${a?"…":""}${esc(ctx.slice(0,kk))}<mark>${esc(ctx.slice(kk,kk+s.length))}</mark>${esc(ctx.slice(kk+s.length))}…<div class="w">第 ${secOfPara(i).n} 节 ${esc(secOfPara(i).t)} · 第 ${i} 段</div></button>`}).join("");
+});
+
+/* ---------- 启动 ---------- */
+drawMap();drawToc();drawThemes();drawStatic();showStop(curStop);showTheme(curTheme);tab("map",true);
+fetch("data.json").then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{
+  P=d.paras;$("stat").hidden=true;showSec(1);route();
+}).catch(()=>{$("stat").textContent="自传全文没有载入成功，刷新页面再试一次。"});
+</script>
+</body>
+</html>
