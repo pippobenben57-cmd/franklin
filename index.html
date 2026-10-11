@@ -156,16 +156,17 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 <header class="top">
   <a class="back" href="../">← 渊默的学习小院</a>
   <div class="mast"><h1>富兰克林</h1><span class="en" lang="en">Benjamin Franklin, 1706–1790</span></div>
-  <p class="lede">印刷工、作家、科学家、外交家。这里以他亲笔写的《自传》为主干：全文四百四十八段，英文原文与中文对照；再从书里理出他走过的地方和他的想法。</p>
+  <p class="lede">印刷工、作家、科学家、外交家。这里以他亲笔写的《自传》为主干：全文四百四十八段，英文原文与中文对照；另选《致富之路》等六篇文字；再从中理出他走过的地方和他的想法。</p>
 </header>
 <nav class="tabs" aria-label="栏目">
   <button type="button" data-tab="map">行迹</button>
   <button type="button" data-tab="book">自传</button>
+  <button type="button" data-tab="works">文选</button>
   <button type="button" data-tab="idea">思想</button>
   <button type="button" data-tab="time">年表与人物</button>
   <button type="button" data-tab="how">怎么读</button>
   <span class="sp"></span>
-  <input id="q" type="search" placeholder="搜自传：中文或英文" aria-label="搜索自传全文">
+  <input id="q" type="search" placeholder="搜自传和文选：中文或英文" aria-label="搜索自传与文选">
 </nav>
 <div id="qres" hidden></div>
 <p id="stat" class="muted small">正在载入自传全文……</p>
@@ -190,6 +191,13 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
   </div>
 </section>
 
+<section class="view" id="v-works" hidden>
+  <div class="themes">
+    <div class="tlist" id="wlist"></div>
+    <article id="wbody"><p class="muted small">正在载入文选……</p></article>
+  </div>
+</section>
+
 <section class="view" id="v-idea" hidden>
   <div class="themes">
     <div class="tlist" id="tlist"></div>
@@ -210,7 +218,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
   <dl class="how" id="how"></dl>
 </section>
 
-<footer>英文原文：The Autobiography of Benjamin Franklin，Charles W. Eliot 编，1909 年（公有领域）。中文译文、分节、提要与专题由 AI（Claude）撰写，未经人工校对。</footer>
+<footer>英文原文：《自传》据 Charles W. Eliot 编本（1909）；文选据 1806 年伦敦版《富兰克林全集》与 Elliot 编《辩论集》，均属公有领域。中文译文、分节、提要与专题由 AI（Claude）撰写，未经人工校对。</footer>
 </div>
 
 <script src="content.js"></script>
@@ -219,6 +227,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store={get(k,d){try{return localStorage.getItem(k)||d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let WK=null,curWork="wealth";
 let P=null,curTab="map",curSec=1,curStop="philadelphia",curTheme="virtue",mode=store.get("bf-mode","both");
 const SEC=window.SECTIONS.map(a=>({n:a[0],part:a[1],from:a[2],to:a[3],t:a[4],yr:a[5],loc:a[6],sum:a[7]}));
 const secOfPara=i=>SEC.find(s=>i>=s.from&&i<=s.to);
@@ -282,7 +291,7 @@ function showSec(n,para){
   if(!P)return;n=Math.max(1,Math.min(SEC.length,n));curSec=n;const s=SEC[n-1],part=window.PARTS.find(p=>p.k===s.part),st=stopBy(s.loc);
   document.querySelectorAll("#toc [data-sec]").forEach(b=>b.setAttribute("aria-current",+b.dataset.sec===n?"true":"false"));
   let h=`<div class="sechead"><div class="eyebrow">${esc(part.t)} · 第 ${n} 节 · ${esc(s.yr)}${st?" · "+esc(st.n):""}</div><h2>${esc(s.t)}</h2><p class="sum">${esc(s.sum)}</p>${s.from===SEC.find(x=>x.part===s.part).from?`<p class="note">${esc(part.when)}。${esc(part.note)}</p>`:""}</div>
-   <div class="bar"><span class="muted">显示</span><span class="seg" role="group" aria-label="显示方式">${[["both","中英对照"],["zh","只看中文"],["en","只看英文"]].map(m=>`<button type="button" data-mode="${m[0]}" aria-pressed="${mode===m[0]}">${m[1]}</button>`).join("")}</span><span class="muted">第 ${s.from}—${s.to} 段</span></div><div id="paras" class="mode-${mode}">`;
+   <div class="bar"><span class="muted">显示</span>${modeBar()}<span class="muted">第 ${s.from}—${s.to} 段</span></div><div class="paras mode-${mode}">`;
   for(let i=s.from;i<=s.to;i++)h+=paraHtml(i);
   h+=`</div><div class="pager"><button type="button" data-sec="${n-1}" ${n===1?"disabled":""}>← ${n>1?esc(SEC[n-2].t):"已是第一节"}</button><button type="button" data-sec="${n+1}" ${n===SEC.length?"disabled":""}>${n<SEC.length?esc(SEC[n].t):"已是最后一节"} →</button></div>`;
   $("reader").innerHTML=h;
@@ -302,8 +311,21 @@ function showTheme(k){
   if(t.special==="creed")sp=`<h3>他拟的六条信条（1731 年）</h3><blockquote>${window.CREED.map(c=>esc(c)).join("<br>")}</blockquote>`;
   if(t.special==="epitaph")sp=`<blockquote><span class="e" lang="en">${esc(window.EPITAPH.e)}</span>${esc(window.EPITAPH.z)}</blockquote>`;
   $("tbody").innerHTML=`<div class="eyebrow">思想专题</div><h2>${esc(t.t)}</h2><p class="muted">${esc(t.sub)}</p>${t.body.map(p=>`<p>${esc(p)}</p>`).join("")}${sp}
-   <div class="eyebrow" style="margin-top:22px">到自传里读原文</div><div class="links">${t.sec.map(n=>`<button type="button" data-sec="${n}">${n}　${esc(SEC[n-1].t)}</button>`).join("")}</div>`;
+   <div class="eyebrow" style="margin-top:22px">到自传里读原文</div><div class="links">${t.sec.map(n=>`<button type="button" data-sec="${n}">${n}　${esc(SEC[n-1].t)}</button>`).join("")}</div>
+   ${t.w&&WK?`<div class="eyebrow" style="margin-top:18px">相关的文选</div><div class="links">${t.w.map(k=>{const w=WK.find(x=>x.k===k);return w?`<button type="button" data-work="${k}">${esc(w.t)}（${esc(w.yr)}）</button>`:""}).join("")}</div>`:""}`;
 }
+
+/* ---------- 文选 ---------- */
+function modeBar(){return `<span class="seg" role="group" aria-label="显示方式">${[["both","中英对照"],["zh","只看中文"],["en","只看英文"]].map(m=>`<button type="button" data-mode="${m[0]}" aria-pressed="${mode===m[0]}">${m[1]}</button>`).join("")}</span>`}
+function showWork(k,para){
+  if(!WK)return;const w=WK.find(x=>x.k===k)||WK[0];curWork=w.k;
+  document.querySelectorAll("[data-work]").forEach(b=>b.setAttribute("aria-current",b.dataset.work===w.k?"true":"false"));
+  $("wbody").innerHTML=`<div class="sechead"><div class="eyebrow">文选 · ${esc(w.yr)}</div><h2>${esc(w.t)} <span class="muted small" lang="en" style="font-family:var(--en);font-style:italic">${esc(w.en)}</span></h2><p class="sum">${esc(w.intro)}</p></div>
+   <div class="bar"><span class="muted">显示</span>${modeBar()}</div><div class="paras mode-${mode}">`+
+   w.paras.map((p,i)=>`<div class="para" id="w-${w.k}-${i}"><span class="no">${i+1}</span><div><p class="en" lang="en">${esc(p.e)}</p><p class="zh">${esc(p.z)}</p></div></div>`).join("")+`</div>`;
+  if(para!=null){const e=$("w-"+w.k+"-"+para);if(e){e.classList.add("hit");e.scrollIntoView({block:"center"});}}
+}
+function goWork(k,para){tab("works",para!=null);showWork(k,para);setHash("w-"+k);}
 
 /* ---------- 年表、人物、说明 ---------- */
 function drawStatic(){
@@ -325,19 +347,22 @@ function route(){
   const h=location.hash.slice(1);let m;
   if((m=/^s(\d+)$/.exec(h)))goSec(+m[1]);
   else if((m=/^p(\d+)$/.exec(h))){const s=secOfPara(+m[1]);if(s)goSec(s.n,+m[1]);}
+  else if((m=/^w-(\w+)$/.exec(h))){tab("works");showWork(m[1]);}
   else if((m=/^t-(\w+)$/.exec(h))){tab("idea");showTheme(m[1]);}
   else if((m=/^m-(\w+)$/.exec(h))){tab("map");showStop(m[1]);}
-  else if(["map","book","idea","time","how"].includes(h))tab(h);
+  else if(["map","book","works","idea","time","how"].includes(h))tab(h);
   else tab("map");
 }
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-tab],[data-stop],[data-sec],[data-theme],[data-mode],[data-para]");if(!t||t.disabled)return;
+  const t=e.target.closest("[data-tab],[data-stop],[data-sec],[data-theme],[data-mode],[data-para],[data-work],[data-wpara]");if(!t||t.disabled)return;
   if(t.dataset.tab){tab(t.dataset.tab);setHash(t.dataset.tab);}
   else if(t.dataset.stop){showStop(t.dataset.stop);setHash("m-"+t.dataset.stop);}
+  else if(t.dataset.wpara){$("qres").hidden=true;const a=t.dataset.wpara.split(":");goWork(a[0],+a[1]);}
+  else if(t.dataset.work){goWork(t.dataset.work);}
   else if(t.dataset.para){$("qres").hidden=true;const i=+t.dataset.para;goSec(secOfPara(i).n,i);}
   else if(t.dataset.sec){goSec(+t.dataset.sec);}
   else if(t.dataset.theme){showTheme(t.dataset.theme);setHash("t-"+t.dataset.theme);}
-  else if(t.dataset.mode){mode=t.dataset.mode;store.set("bf-mode",mode);$("paras").className="mode-"+mode;document.querySelectorAll("[data-mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===mode));}
+  else if(t.dataset.mode){mode=t.dataset.mode;store.set("bf-mode",mode);document.querySelectorAll(".paras").forEach(e=>e.className="paras mode-"+mode);document.querySelectorAll("[data-mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===mode));}
 });
 document.addEventListener("keydown",e=>{
   const s=e.target.closest&&e.target.closest("g.stop");
@@ -356,8 +381,11 @@ $("q").addEventListener("input",()=>{
     if(k<0){k=P[i].e.toLowerCase().indexOf(low);src=P[i].e;}
     if(k>=0)hits.push([i,src,k]);
   }
+  const wh=[];
+  if(WK)for(const w of WK)w.paras.forEach((p,i)=>{if(wh.length>=30)return;let k=p.z.indexOf(s),src=p.z;if(k<0){k=p.e.toLowerCase().indexOf(low);src=p.e;}if(k>=0)wh.push([w,i,src,k]);});
+  const cut=(src,k)=>{const a=Math.max(0,k-24),ctx=src.slice(a,k+s.length+40),kk=k-a;return `${a?"…":""}${esc(ctx.slice(0,kk))}<mark>${esc(ctx.slice(kk,kk+s.length))}</mark>${esc(ctx.slice(kk+s.length))}…`};
   box.hidden=false;
-  box.innerHTML=`<p class="small muted" style="margin:0 0 6px">${hits.length?`找到 ${hits.length}${hits.length===80?"+":""} 段`:"没有找到，换个词试试。"}</p>`+hits.map(([i,src,k])=>{
+  box.innerHTML=`<p class="small muted" style="margin:0 0 6px">${hits.length+wh.length?`自传 ${hits.length}${hits.length===80?"+":""} 段，文选 ${wh.length} 段`:"没有找到，换个词试试。"}</p>`+wh.map(([w,i,src,k])=>`<button type="button" data-wpara="${w.k}:${i}">${cut(src,k)}<div class="w">文选 · ${esc(w.t)} · 第 ${i+1} 段</div></button>`).join("")+hits.map(([i,src,k])=>{
     const a=Math.max(0,k-24),ctx=src.slice(a,k+s.length+40);const kk=k-a;
     return `<button type="button" data-para="${i}">${a?"…":""}${esc(ctx.slice(0,kk))}<mark>${esc(ctx.slice(kk,kk+s.length))}</mark>${esc(ctx.slice(kk+s.length))}…<div class="w">第 ${secOfPara(i).n} 节 ${esc(secOfPara(i).t)} · 第 ${i} 段</div></button>`}).join("");
 });
@@ -367,6 +395,10 @@ drawMap();drawToc();drawThemes();drawStatic();showStop(curStop);showTheme(curThe
 fetch("data.json").then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{
   P=d.paras;$("stat").hidden=true;showSec(1);route();
 }).catch(()=>{$("stat").textContent="自传全文没有载入成功，刷新页面再试一次。"});
+fetch("works.json").then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{
+  WK=d.works;$("wlist").innerHTML=WK.map(w=>`<button type="button" data-work="${w.k}">${esc(w.t)}</button>`).join("");
+  showWork(curWork);showTheme(curTheme);if(/^#w-/.test(location.hash))route();
+}).catch(()=>{$("wbody").innerHTML=`<p class="muted">文选没有载入成功，刷新页面再试一次。</p>`});
 </script>
 </body>
 </html>
